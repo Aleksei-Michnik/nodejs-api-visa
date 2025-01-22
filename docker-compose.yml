@@ -1,0 +1,45 @@
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.runCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  visa-payment-api:
+    build:
+      context: ./visa-payment-api
+      dockerfile: Dockerfile
+      args:
+        VISA_PAYMENT_API_PORT: ${VISA_PAYMENT_API_PORT}
+    container_name: visa-payment-api
+    ports:
+      - "${VISA_PAYMENT_API_PORT_HOST}:${VISA_PAYMENT_API_PORT}"
+    env_file:
+      - .env
+    depends_on:
+      - mongo
+
+  mock-visa-api:
+    build:
+      context: ./mock-visa-api
+      dockerfile: Dockerfile
+      args:
+        MOCK_VISA_API_PORT: ${MOCK_VISA_API_PORT}
+    container_name: mock-visa-api
+    ports:
+      - "${MOCK_VISA_API_PORT_HOST}:${MOCK_VISA_API_PORT}"
+    env_file:
+      - .env
+
+volumes:
+  mongo-data:

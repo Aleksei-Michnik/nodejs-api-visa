@@ -1,7 +1,14 @@
-FROM node:22
+FROM node:22-alpine
+
+ARG MOCK_VISA_API_PORT
+ENV MOCK_VISA_API_PORT=${MOCK_VISA_API_PORT}
+
 WORKDIR /app
-COPY package.json .
+
+COPY package.json package-lock.json ./
 RUN npm install
 COPY . .
-EXPOSE 3001
+
+EXPOSE ${MOCK_VISA_API_PORT}
+
 CMD ["node", "src/app.js"]
