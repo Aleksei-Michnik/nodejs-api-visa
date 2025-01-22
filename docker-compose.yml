@@ -10,7 +10,7 @@ services:
     env_file:
       - .env
     healthcheck:
-      test: ["CMD", "mongo", "--eval", "db.runCommand('ping').ok"]
+      test: ["CMD", "mongo", "--username", "admin", "--password", "password", "--eval", "db.runCommand('ping').ok"]
       interval: 10s
       timeout: 5s
       retries: 5
