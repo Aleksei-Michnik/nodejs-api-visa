@@ -13,9 +13,9 @@ app.post('/payments', paymentController.handlePayment);
 app.post('/anti-fraud', fraudController.handleFraudCheck);
 
 // Start the server
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-    console.log(`Mock Visa API is running on http://localhost:${PORT}`);
+const MOCK_VISA_API_PORT = process.env.MOCK_VISA_API_PORT || 3001;
+app.listen(MOCK_VISA_API_PORT, () => {
+    console.log(`Mock Visa API is running on http://localhost:${MOCK_VISA_API_PORT}`);
 });
 
 module.exports = app;

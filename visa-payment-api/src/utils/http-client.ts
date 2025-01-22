@@ -7,7 +7,7 @@ export class HttpClient {
 
     constructor() {
         this.client = axios.create({
-            baseURL: process.env.API_URL || 'http://localhost:3001',
+            baseURL: process.env.MOCK_VISA_API_URL || 'http://localhost:3001',
         });
     }
 
