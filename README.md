@@ -4,4 +4,4 @@
 - Node.js
 - MongoDB
 - NestJS
-- React
+- Vite+React

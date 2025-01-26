@@ -44,5 +44,21 @@ services:
     env_file:
       - .env
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_PORT: ${VITE_PORT}
+    container_name: frontend
+    ports:
+      - "${VITE_PORT_HOST}:${VITE_PORT}"
+    environment:
+      VITE_BACKEND_API_URL: http://localhost:${VISA_PAYMENT_API_PORT}
+    depends_on:
+      - visa-payment-api
+    env_file:
+      - .env
+
 volumes:
   mongo-data:
