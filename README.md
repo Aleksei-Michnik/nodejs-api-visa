@@ -22,7 +22,7 @@ For Visa API, there is a mock, as the real API is available only for banks and o
   ```shell
   ~/nodejs-api-visa$ docker compose up --build -d
   ```
-* Ensure all the containers are running and healthy. Example:
+* Ensure all the containers are running and healthy, using the Docker UI on Desktop or the terminal. Example:
   ```shell
   ~/nodejs-api-visa$ docker ps
   CONTAINER ID   IMAGE                              COMMAND                  CREATED       STATUS                 PORTS                               NAMES
