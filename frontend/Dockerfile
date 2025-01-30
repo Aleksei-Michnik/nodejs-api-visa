@@ -8,8 +8,6 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
 
-COPY . .
-
 EXPOSE ${VITE_PORT}
 
 CMD ["npm", "run", "dev", "--", "--host"]

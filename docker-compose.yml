@@ -51,6 +51,8 @@ services:
       args:
         VITE_PORT: ${VITE_PORT}
     container_name: frontend
+    volumes:
+      - ./frontend:/app
     ports:
       - "${VITE_PORT_HOST}:${VITE_PORT}"
     environment:
