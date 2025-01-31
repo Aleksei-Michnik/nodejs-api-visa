@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 interface PaymentFormProps {
     onSubmit: (paymentDetails: {
@@ -8,13 +8,26 @@ interface PaymentFormProps {
     }) => void;
 }
 
-const PaymentForm: React.FC<PaymentFormProps> = () => {
-    return <form>
+const PaymentForm: React.FC<PaymentFormProps> = ({onSubmit}) => {
+    const [cardNumber, setCardNumber] = useState('');
+    const [expiry, setExpiry] = useState('');
+    const [cvv, setCvv] = useState('');
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        onSubmit({ cardNumber, expiry, cvv });
+        setCardNumber('');
+        setExpiry('');
+        setCvv('');
+    };
+
+    return <form onSubmit={handleSubmit}>
       <div>
         <label>Card Number</label>
         <input
           type="text"
-          value=""
+          value={cardNumber}
+          onChange={e => setCardNumber(e.target.value)}
           placeholder="1234 5678 9123 4567"
           required
         />
@@ -23,7 +36,8 @@ const PaymentForm: React.FC<PaymentFormProps> = () => {
         <label>Expiry Date</label>
         <input
           type="text"
-          value=""
+          value={expiry}
+          onChange={e => setExpiry(e.target.value)}
           placeholder="MM/YY"
           required
         />
@@ -32,7 +46,8 @@ const PaymentForm: React.FC<PaymentFormProps> = () => {
         <label>CVV</label>
         <input
           type="password"
-          value=""
+          value={cvv}
+          onChange={e => setCvv(e.target.value)}
           placeholder="123"
           required
         />
