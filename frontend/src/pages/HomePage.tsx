@@ -1,5 +1,9 @@
+import PaymentForm from '../components/PaymentForm';
+
 const HomePage = () => {
-    return <h1>Home page</h1>;
+    return <>
+      <PaymentForm />
+    </>;
 };
 
 export default HomePage;
