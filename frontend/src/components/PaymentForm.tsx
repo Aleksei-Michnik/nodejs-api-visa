@@ -1,4 +1,14 @@
-const PaymentForm = () => {
+import React from 'react';
+
+interface PaymentFormProps {
+    onSubmit: (paymentDetails: {
+        cardNumber: string;
+        expiry: string;
+        cvv: string;
+    }) => void;
+}
+
+const PaymentForm: React.FC<PaymentFormProps> = () => {
     return <form>
       <div>
         <label>Card Number</label>
