@@ -1,7 +1,9 @@
 import { submitPayment } from '../api/paymentService';
 import PaymentForm from '../components/PaymentForm';
+import PaymentList from "../components/PaymentList.tsx";
 
 const HomePage = () => {
+
     const handlePaymentSubmit = async (paymentDetails: object) => {
         try {
             const newPayment = await submitPayment(paymentDetails);
@@ -13,6 +15,8 @@ const HomePage = () => {
     return <>
       <h1>Payment Gateway</h1>
       <PaymentForm onSubmit={handlePaymentSubmit} />
+      <h2>Payment List</h2>
+      <PaymentList />
     </>;
 };
 
