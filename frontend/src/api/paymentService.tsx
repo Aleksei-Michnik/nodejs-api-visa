@@ -7,12 +7,7 @@ export async function getPayments() {
     return response.data;
 }
 
-export async function submitPayment(paymentDetails: {
-    cardNumber: string,
-    cardHolder: string,
-    expiry: string,
-    cvv: string,
-}) {
+export async function submitPayment(paymentDetails: object) {
     const response = await axios.post(`${API_BASE_URL}/payments`, paymentDetails);
     return response.data;
 }
