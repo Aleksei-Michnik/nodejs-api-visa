@@ -8,6 +8,14 @@ export async function getPayments() {
 }
 
 export async function submitPayment(paymentDetails: object) {
-    const response = await axios.post(`${API_BASE_URL}/payments`, paymentDetails);
-    return response.data;
+    try {
+        const response = await axios.post(`${API_BASE_URL}/payments`, paymentDetails);
+        if (response.status !== 201) {
+            throw new Error(`Unexpected response status: ${response.status}`);
+        }
+        return response.data;
+    } catch (error) {
+        console.error('Error during payment submission:', error);
+        throw error;
+    }
 }
