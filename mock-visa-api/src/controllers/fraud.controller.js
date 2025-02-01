@@ -1,4 +1,7 @@
 exports.handleFraudCheck = (req, res) => {
+    console.log('[Mock Visa API]: /anti-fraud endpoint hit.');
+    console.log('Request body:', req.body);
+
     const { cardNumber } = req.body;
 
     if (cardNumber.startsWith('1234')) {
