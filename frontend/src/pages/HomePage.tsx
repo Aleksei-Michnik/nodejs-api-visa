@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { submitPayment } from '../api/paymentService';
 import PaymentForm from '../components/PaymentForm';
 import PaymentList from "../components/PaymentList.tsx";
 
-const HomePage = () => {
+const HomePage: React.FC = () => {
     const [payments, setPayments] = useState([]);
 
     useEffect(() => {
