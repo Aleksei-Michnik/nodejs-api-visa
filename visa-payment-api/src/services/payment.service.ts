@@ -11,7 +11,6 @@ export class PaymentService {
     ) {}
 
     async processPayment(paymentData: any): Promise<any> {
-        // Call Mock Visa API (example)
         const antiFraudResponse = await this.httpClient.post('/anti-fraud', {
             cardNumber: paymentData.cardNumber,
         });
@@ -20,16 +19,24 @@ export class PaymentService {
             return { status: 'failed', message: 'Fraud detected!' };
         }
 
-        const paymentResponse = await this.httpClient.post('/payments', {
-            cardNumber: paymentData.cardNumber,
-            amount: paymentData.amount,
-        });
+        try {
+            const paymentResponse = await this.httpClient.post('/payments', {
+                cardNumber: paymentData.cardNumber,
+                cardHolder: paymentData.cardHolder,
+                expiry: paymentData.expiry,
+                cvv: paymentData.cvv,
+                amount: paymentData.amount,
+            });
 
-        if (paymentResponse.status === 'approved') {
-            await new this.paymentModel(paymentData).save();
+            if (paymentResponse.status === 'approved') {
+                await new this.paymentModel(paymentData).save();
+            }
+
+            return paymentResponse;
+        } catch (err) {
+            console.error('Error making payment request:', err.message);
+            throw new Error('Payment processing failed.');
         }
-
-        return paymentResponse;
     }
 
     async getAllPayments(): Promise<any> {
