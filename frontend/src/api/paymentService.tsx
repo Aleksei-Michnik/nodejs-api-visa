@@ -10,7 +10,7 @@ export async function getPayments() {
 export async function submitPayment(paymentDetails: object) {
     try {
         const response = await axios.post(`${API_BASE_URL}/payments`, paymentDetails);
-        if (response.status !== 201) {
+        if (response.status !== 201 && response.status !== 200) {
             throw new Error(`Unexpected response status: ${response.status}`);
         }
         return response.data;
