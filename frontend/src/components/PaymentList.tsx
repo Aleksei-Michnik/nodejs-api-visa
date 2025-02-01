@@ -15,8 +15,8 @@ interface PaymentListProps {
 
 const PaymentList: React.FC<PaymentListProps> = ({ payments }) => {
     return <ul>
-      {payments.map((payment) => (
-        <li key={payment.id}>{payment.amount}</li>
+      {payments.map((payment, i) => (
+        <li key={i}>{payment.id} {payment.amount}</li>
       ))}
     </ul>;
 };

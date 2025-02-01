@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { submitPayment } from '../api/paymentService';
+import { getPayments, submitPayment } from '../api/paymentService';
 import PaymentForm from '../components/PaymentForm';
 import PaymentList from "../components/PaymentList.tsx";
 
@@ -9,15 +9,8 @@ const HomePage: React.FC = () => {
     useEffect(() => {
         async function fetchPayments() {
             try {
-                // @ts-ignore
-                setPayments([{
-                    id: 1,
-                    amount: 1000,
-                    cardNumber: '1234 5678 9123 4567',
-                    cardHolder: '<NAME>',
-                    expiry: '12/22',
-                    cvv: '123'
-                }]);
+                const data = await getPayments();
+                setPayments(data);
             } catch (error) {
                 console.error('Error fetching payments:', error);
             } finally {}
