@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 interface PaymentFormProps {
     onSubmit: (paymentDetails: {
         cardNumber: string;
+        cardHolder: string;
         expiry: string;
         cvv: string;
     }) => void;
@@ -10,13 +11,15 @@ interface PaymentFormProps {
 
 const PaymentForm: React.FC<PaymentFormProps> = ({onSubmit}) => {
     const [cardNumber, setCardNumber] = useState('');
+    const [cardHolder, setCardHolder] = useState('');
     const [expiry, setExpiry] = useState('');
     const [cvv, setCvv] = useState('');
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        onSubmit({ cardNumber, expiry, cvv });
+        onSubmit({ cardNumber, cardHolder, expiry, cvv });
         setCardNumber('');
+        setCardHolder('');
         setExpiry('');
         setCvv('');
     };
@@ -29,6 +32,16 @@ const PaymentForm: React.FC<PaymentFormProps> = ({onSubmit}) => {
           value={cardNumber}
           onChange={e => setCardNumber(e.target.value)}
           placeholder="1234 5678 9123 4567"
+          required
+        />
+      </div>
+      <div>
+        <label>Card Holder Name</label>
+        <input
+          type="text"
+          value={cardHolder}
+          onChange={e => setCardHolder(e.target.value)}
+          placeholder="John Doe"
           required
         />
       </div>
