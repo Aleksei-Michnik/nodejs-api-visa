@@ -1,6 +1,23 @@
-const PaymentList = () => {
+import React from 'react';
+
+interface Payment {
+    id: number;
+    amount: number;
+    cardNumber: string;
+    cardHolder: string;
+    status: 'success' | 'declined' | 'fraud';
+    date: string;
+}
+
+interface PaymentListProps {
+    payments: Payment[];
+}
+
+const PaymentList: React.FC<PaymentListProps> = ({ payments }) => {
     return <ul>
-      <li>Some payment</li>
+      {payments.map((payment) => (
+        <li key={payment.id}>{payment.amount}</li>
+      ))}
     </ul>;
 };
 
