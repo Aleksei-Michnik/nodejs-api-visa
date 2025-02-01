@@ -12,7 +12,14 @@ export class HttpClient {
     }
 
     async post(path: string, data: any): Promise<any> {
-        const response = await this.client.post(path, data);
-        return response.data;
+        try {
+            const response = await this.client.post(path, data);
+            return response.data;
+        } catch (err) {
+            console.error(`Failed POST to ${path} with data:`, data, 'Error:', err.message);
+            console.error('Axios config:', err.config);
+            console.error('Response data:', err.response?.data);
+            throw err;
+        }
     }
 }
