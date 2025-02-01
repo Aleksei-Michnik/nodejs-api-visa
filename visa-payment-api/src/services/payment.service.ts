@@ -16,7 +16,15 @@ export class PaymentService {
         });
 
         if (!antiFraudResponse.pass) {
-            return { status: 'failed', message: 'Fraud detected!' };
+            const failedPayment = {
+                ...paymentData,
+                status: 'fraud',
+                createdAt: new Date(),
+            };
+
+            await new this.paymentModel(failedPayment).save();
+
+            return failedPayment;
         }
 
         try {
@@ -28,11 +36,18 @@ export class PaymentService {
                 amount: paymentData.amount,
             });
 
-            if (paymentResponse.status === 'approved') {
-                await new this.paymentModel(paymentData).save();
-            }
+            const paymentStatus =
+                paymentResponse.status === 'approved' ? 'success' : 'declined';
 
-            return paymentResponse;
+            const completedPayment = {
+                ...paymentData,
+                status: paymentStatus,
+                createdAt: new Date(),
+            };
+
+            await new this.paymentModel(completedPayment).save();
+
+            return completedPayment;
         } catch (err) {
             console.error('Error making payment request:', err.message);
             throw new Error('Payment processing failed.');
