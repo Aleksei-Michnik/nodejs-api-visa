@@ -1,4 +1,7 @@
 exports.handlePayment = (req, res) => {
+    console.log('[Mock Visa API]: /payments endpoint hit.');
+    console.log('Request body:', req.body);
+
     const { amount } = req.body;
 
     if (amount > 1000) {
