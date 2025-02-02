@@ -17,7 +17,8 @@ const PaymentList: React.FC<PaymentListProps> = ({ payments }) => {
     console.log('Payments', payments);
     return <ul>
       {payments.map((payment) => (
-        <li key={payment._id}>{payment.cardHolder} {payment.amount} {payment.createdAt}</li>
+        <li key={payment._id}>{payment.cardHolder} - ${payment.amount} - {payment.status} - {new Date(payment.createdAt).toLocaleString()}
+        </li>
       ))}
     </ul>;
 };
