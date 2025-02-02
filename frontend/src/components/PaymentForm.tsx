@@ -72,7 +72,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({onSubmit}) => {
           required
         />
       </div>
-      <button type="submit">Submit Payment</button>
+      <button className="btn btn-primary" type="submit">Submit Payment</button>
     </form>;
 };
 
