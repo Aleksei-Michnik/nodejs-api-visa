@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { getPayments, submitPayment } from '../api/paymentService';
-import PaymentForm from '../components/PaymentForm';
-import PaymentList from "../components/PaymentList.tsx";
+
+const PaymentForm = lazy(() => import('../components/PaymentForm'));
+const PaymentList  = lazy(() => import('../components/PaymentList.tsx'));
 
 const HomePage: React.FC = () => {
     const [payments, setPayments] = useState<any[]>([]);
@@ -32,12 +33,12 @@ const HomePage: React.FC = () => {
             console.error('Error submitting payment:', err);
         }
     };
-    return <>
+    return <Suspense fallback={<div>Loading...</div>}>
       <h1>Payment Gateway</h1>
       <PaymentForm onSubmit={handlePaymentSubmit} />
       <h2>Payment List</h2>
       {loading ? <p>Loading...</p> : <PaymentList payments={payments} />}
-    </>;
+    </Suspense>;
 };
 
 export default HomePage;
