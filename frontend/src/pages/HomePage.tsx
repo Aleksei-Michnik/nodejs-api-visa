@@ -33,7 +33,7 @@ const HomePage: React.FC = () => {
             console.error('Error submitting payment:', err);
         }
     };
-    return <div className="container">
+    return <div className="container flex flex-col items-center justify-center prose mx-auto">
       <h1>Payment Gateway</h1>
       <Suspense fallback={<div>Loading...</div>}>
         <PaymentForm onSubmit={handlePaymentSubmit} />

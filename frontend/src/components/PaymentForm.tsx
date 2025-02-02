@@ -27,52 +27,64 @@ const PaymentForm: React.FC<PaymentFormProps> = ({onSubmit}) => {
         setCvv('123');
     };
 
-    return <form onSubmit={handleSubmit}>
-      <input
-        type="hidden"
-        value={amount}
-      />
-      <div>
-        <label>Card Number</label>
+    return <form className="flex flex-col gap-8 items-center" onSubmit={handleSubmit}>
+      <div className="dark:bg-gray-800 rounded-lg px-6 pt-8 pb-12 ring shadow-xl ring-gray-900/5 max-w-lg flex flex-wrap gap-2 text-left">
         <input
-          type="text"
-          value={cardNumber}
-          onChange={e => setCardNumber(e.target.value)}
-          placeholder="5234 5678 9123 4567"
-          required
+          type="hidden"
+          value={amount}
         />
+        <div className="w-full">
+          <label className="label">Card Number</label>
+          <input
+            className="input w-full text-xl"
+            type="text"
+            value={cardNumber}
+            onChange={e => setCardNumber(e.target.value)}
+            placeholder="5234 5678 9123 4567"
+            required
+          />
+        </div>
+        <div className="w-full">
+          <label className="label">Card Holder Name</label>
+          <input
+            className="input w-full text-xl"
+            type="text"
+            value={cardHolder}
+            onChange={e => setCardHolder(e.target.value)}
+            placeholder="John Doe"
+            required
+          />
+        </div>
+        <div className="w-full flex gap-4">
+        <div className="w-1/2">
+          <label className="label">
+            Expiry Date
+          </label>
+          <input
+            className="input w-full text-xl"
+            type="text"
+            value={expiry}
+            onChange={e => setExpiry(e.target.value)}
+            placeholder="12/25"
+            required
+          />
+        </div>
+        <div className="w-1/2">
+          <label className="label">
+            CVV
+          </label>
+          <input
+            className="input w-full text-xl"
+            type="password"
+            value={cvv}
+            onChange={e => setCvv(e.target.value)}
+            placeholder="123"
+            required
+          />
+        </div>
+        </div>
       </div>
-      <div>
-        <label>Card Holder Name</label>
-        <input
-          type="text"
-          value={cardHolder}
-          onChange={e => setCardHolder(e.target.value)}
-          placeholder="John Doe"
-          required
-        />
-      </div>
-      <div>
-        <label>Expiry Date</label>
-        <input
-          type="text"
-          value={expiry}
-          onChange={e => setExpiry(e.target.value)}
-          placeholder="MM/YY"
-          required
-        />
-      </div>
-      <div>
-        <label>CVV</label>
-        <input
-          type="password"
-          value={cvv}
-          onChange={e => setCvv(e.target.value)}
-          placeholder="123"
-          required
-        />
-      </div>
-      <button className="btn btn-primary" type="submit">Submit Payment</button>
+      <button className="btn btn-primary text-nowrap w-min" type="submit">Submit Payment</button>
     </form>;
 };
 
