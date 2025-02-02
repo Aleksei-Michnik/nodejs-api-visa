@@ -33,12 +33,14 @@ const HomePage: React.FC = () => {
             console.error('Error submitting payment:', err);
         }
     };
-    return <Suspense fallback={<div>Loading...</div>}>
+    return <div className="container">
       <h1>Payment Gateway</h1>
-      <PaymentForm onSubmit={handlePaymentSubmit} />
-      <h2>Payment List</h2>
-      {loading ? <p>Loading...</p> : <PaymentList payments={payments} />}
-    </Suspense>;
+      <Suspense fallback={<div>Loading...</div>}>
+        <PaymentForm onSubmit={handlePaymentSubmit} />
+        <h2>Payment List</h2>
+        {loading ? <p>Loading...</p> : <PaymentList payments={payments} />}
+      </Suspense>
+    </div>;
 };
 
 export default HomePage;
