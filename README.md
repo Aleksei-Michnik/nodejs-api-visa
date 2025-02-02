@@ -9,7 +9,7 @@ For Visa API, there is a mock, as the real API is available only for banks and o
 - Node.js
 - NestJS
 - MongoDB
-- Vite+React
+- Vite, React, Tailwind CSS
 
 ## Starting locally
 
