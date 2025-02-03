@@ -1,0 +1,14 @@
+/* src/components/PaymentList.styles.css */
+
+@layer components {
+    .payment-form {
+        background-image: linear-gradient(111deg,  transparent 50%, #e91e6309 50%),
+            linear-gradient(133deg,  transparent 50%, #e91e6309 50%),
+            linear-gradient(155deg,  transparent 50%, #e91e6309 50%),
+            linear-gradient(177deg,  transparent 50%, #e91e6309 50%),
+            linear-gradient(199deg,  transparent 50%, #e91e6309 50%),
+            linear-gradient(221deg,  transparent 50%, #e91e6309 50%),
+            linear-gradient(243deg,  transparent 50%, #e91e6309 50%),
+            linear-gradient(265deg,  transparent 50%, #e91e6309 50%);
+    }
+}

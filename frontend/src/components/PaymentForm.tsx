@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './PaymentForm.styles.css';
 
 interface PaymentFormProps {
     onSubmit: (paymentDetails: {
@@ -28,7 +29,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({onSubmit}) => {
     };
 
     return <form className="flex flex-col gap-8 items-center" onSubmit={handleSubmit}>
-      <div className="dark:bg-gray-800 rounded-lg px-6 pt-8 pb-12 ring shadow-xl ring-gray-900/5 max-w-lg flex flex-wrap gap-2 text-left">
+      <div className="payment-form bg-gray-800 rounded-lg px-6 pt-8 pb-12 ring shadow-xl ring-gray-900/5 max-w-lg flex flex-wrap gap-2 text-left">
         <input
           type="hidden"
           value={amount}
