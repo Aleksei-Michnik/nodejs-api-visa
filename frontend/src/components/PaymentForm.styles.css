@@ -2,13 +2,11 @@
 
 @layer components {
     .payment-form {
-        background-image: linear-gradient(111deg,  transparent 50%, #e91e6309 50%),
-            linear-gradient(133deg,  transparent 50%, #e91e6309 50%),
-            linear-gradient(155deg,  transparent 50%, #e91e6309 50%),
-            linear-gradient(177deg,  transparent 50%, #e91e6309 50%),
-            linear-gradient(199deg,  transparent 50%, #e91e6309 50%),
-            linear-gradient(221deg,  transparent 50%, #e91e6309 50%),
-            linear-gradient(243deg,  transparent 50%, #e91e6309 50%),
-            linear-gradient(265deg,  transparent 50%, #e91e6309 50%);
+        background-image: linear-gradient(60deg, transparent 0, var(--color-gray-800) 64%, var(--color-gray-800) 80%, transparent 110%),
+            linear-gradient(110deg, transparent 30%, #e91e6309 30%),
+            linear-gradient(140deg, transparent 35%, rgba(233, 104, 30, .04) 35%),
+            linear-gradient(170deg, transparent 40%, rgba(233, 165, 30, .04) 40%),
+            linear-gradient(200deg, transparent 45%, rgba(233, 71, 30, .04) 45%),
+            linear-gradient(230deg, transparent 50%, rgba(233, 104, 30, .04) 50%);
     }
 }
