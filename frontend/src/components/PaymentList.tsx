@@ -20,7 +20,10 @@ const PaymentList: React.FC<PaymentListProps> = ({ onNewPayment }) => {
     const [loading, setLoading] = useState(true);
 
     const addPayment = (newPayment: Payment) => {
-        setPayments((prevPayments) => [newPayment, ...prevPayments]);
+        setPayments(prevPayments => {
+            const updatedPayments = [newPayment, ...prevPayments];
+            return updatedPayments.slice(0, 20);
+        });
         if (onNewPayment) {
             onNewPayment(newPayment);
         }
