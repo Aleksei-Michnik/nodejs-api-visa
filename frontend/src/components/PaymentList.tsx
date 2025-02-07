@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { io, Socket } from 'socket.io-client';
 import { getPayments } from '../api/paymentService.tsx';
 
 interface Payment {
@@ -14,9 +15,16 @@ interface PaymentListProps {
     onNewPayment?: (payment: Payment) => void;
 }
 
-const PaymentList: React.FC<PaymentListProps> = () => {
+const PaymentList: React.FC<PaymentListProps> = ({ onNewPayment }) => {
     const [payments, setPayments] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+
+    const addPayment = (newPayment: Payment) => {
+        setPayments((prevPayments) => [newPayment, ...prevPayments]);
+        if (onNewPayment) {
+            onNewPayment(newPayment);
+        }
+    };
 
     useEffect(() => {
         const fetchPayments = async () => {
@@ -30,6 +38,31 @@ const PaymentList: React.FC<PaymentListProps> = () => {
             }
         };
         fetchPayments();
+
+        const socket: Socket = io(import.meta.env.VITE_BACKEND_API_BASE_URL, {
+            transports: ['websocket'], // Explicitly use only the WebSocket transport
+            reconnectionAttempts: 5, // Optional, to limit excessive retries
+            timeout: 10000, // Optional, to limit how long the client tries to connect
+            path: '/socket.io/', // Ensure it matches the backend path
+        });
+
+        socket.on('connect', () => {
+            console.log('WebSocket connected successfully');
+        });
+        socket.on('connect_error', (err) => {
+            console.error('WebSocket connection error:', err.message);
+        });
+
+
+        socket.on('paymentAdded', (newPayment: Payment) => {
+            console.log('New payment received via WebSocket:', newPayment);
+            addPayment(newPayment);
+        });
+
+        return () => {
+            socket.off('paymentAdded');
+            socket.disconnect();
+        };
     }, []);
 
     console.log('Payments', payments);

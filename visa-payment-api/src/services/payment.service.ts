@@ -2,11 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { HttpClient } from '../utils/http-client';
+import { PaymentGateway} from '../controllers/payment.gateway';
 
 @Injectable()
 export class PaymentService {
     constructor(
         private readonly httpClient: HttpClient,
+        private readonly paymentGateway: PaymentGateway,
         @InjectModel('Payment') private readonly paymentModel: Model<any>,
     ) {}
 
@@ -45,9 +47,11 @@ export class PaymentService {
                 createdAt: new Date(),
             };
 
-            await new this.paymentModel(completedPayment).save();
+            const savedPayment = await new this.paymentModel(completedPayment).save();
 
-            return completedPayment;
+            this.paymentGateway.sendPaymentUpdate(savedPayment);
+
+            return savedPayment;
         } catch (err) {
             console.error('Error making payment request:', err.message);
             throw new Error('Payment processing failed.');

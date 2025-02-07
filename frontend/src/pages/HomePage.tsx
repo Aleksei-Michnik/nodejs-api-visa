@@ -9,6 +9,7 @@ const HomePage: React.FC = () => {
         try {
             const newPayment = await submitPayment(paymentDetails);
             console.log('New payment structure:', newPayment);
+            console.log('Waiting for payment confirmation webhook...');
             console.log('Payment submitted:', newPayment);
             if (newPayment) {
                 console.log('Adding new payment to list:', newPayment);
