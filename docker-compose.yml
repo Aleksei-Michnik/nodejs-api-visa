@@ -55,8 +55,6 @@ services:
       - ./frontend:/app
     ports:
       - "${VITE_PORT_HOST}:${VITE_PORT}"
-    environment:
-      VITE_BACKEND_API_URL: http://localhost:${VISA_PAYMENT_API_PORT}
     depends_on:
       - visa-payment-api
     env_file:
