@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import {Controller, Get, Post, Body, Query} from '@nestjs/common';
 import { PaymentService } from '../services/payment.service';
 
 @Controller('payments')
@@ -11,7 +11,11 @@ export class PaymentController {
     }
 
     @Get()
-    async getPayments(): Promise<any> {
-        return await this.paymentService.getAllPayments();
+    async getPayments(
+        @Query('limit') limit: string,
+        @Query('sort') sort: 'asc' | 'desc',
+    ): Promise<any> {
+        const limitNumber = parseInt(limit, 10) || 20;
+        return await this.paymentService.getPayments(limitNumber, sort || 'desc');
     }
 }

@@ -54,7 +54,11 @@ export class PaymentService {
         }
     }
 
-    async getAllPayments(): Promise<any> {
-        return await this.paymentModel.find().exec();
+    async getPayments(limit: number = 20, sort: 'asc' | 'desc' = 'desc'): Promise<any> {
+        return await this.paymentModel
+            .find()
+            .sort({ createdAt: sort === 'desc' ? -1 : 1 })
+            .limit(limit)
+            .exec();
     }
 }

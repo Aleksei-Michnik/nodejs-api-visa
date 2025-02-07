@@ -86,6 +86,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({onSubmit}) => {
         </div>
       </div>
       <button className="btn btn-primary text-nowrap w-min" type="submit">Submit Payment</button>
+      <button className="btn text-nowrap w-min">Spawn payments</button>
     </form>;
 };
 
