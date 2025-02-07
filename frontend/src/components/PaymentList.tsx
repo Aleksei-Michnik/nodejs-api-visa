@@ -40,10 +40,10 @@ const PaymentList: React.FC<PaymentListProps> = ({ onNewPayment }) => {
         fetchPayments();
 
         const socket: Socket = io(import.meta.env.VITE_BACKEND_API_BASE_URL, {
-            transports: ['websocket'], // Explicitly use only the WebSocket transport
-            reconnectionAttempts: 5, // Optional, to limit excessive retries
-            timeout: 10000, // Optional, to limit how long the client tries to connect
-            path: '/socket.io/', // Ensure it matches the backend path
+            transports: ['websocket'],
+            reconnectionAttempts: 5,
+            timeout: 10000,
+            path: '/socket.io/',
         });
 
         socket.on('connect', () => {
