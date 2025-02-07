@@ -18,11 +18,12 @@ interface PaymentListProps {
 const PaymentList: React.FC<PaymentListProps> = ({ onNewPayment }) => {
     const [payments, setPayments] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const perPage = 20;
 
     const addPayment = (newPayment: Payment) => {
         setPayments(prevPayments => {
             const updatedPayments = [newPayment, ...prevPayments];
-            return updatedPayments.slice(0, 20);
+            return updatedPayments.slice(0, perPage);
         });
         if (onNewPayment) {
             onNewPayment(newPayment);
@@ -32,7 +33,7 @@ const PaymentList: React.FC<PaymentListProps> = ({ onNewPayment }) => {
     useEffect(() => {
         const fetchPayments = async () => {
             try {
-                const data = await getPayments({ limit: 20, sort: 'desc' });
+                const data = await getPayments({ limit: perPage, sort: 'desc' });
                 setPayments(data);
             } catch (error) {
                 console.error('Error fetching payments:', error);
