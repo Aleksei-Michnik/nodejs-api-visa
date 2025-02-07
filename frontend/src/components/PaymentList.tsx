@@ -72,12 +72,26 @@ const PaymentList: React.FC<PaymentListProps> = ({ onNewPayment }) => {
     console.log('Payments', payments);
     return <>
       {loading ? (<p>Loading...</p>)
-          : (<ul>
+          : (<table>
+            <thead>
+            <tr>
+              <th>Card Holder</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
             {payments.map((payment) => (
-              <li key={payment._id}>{payment.cardHolder} - ${payment.amount} - {payment.status} - {new Date(payment.createdAt).toLocaleString()}
-              </li>
+              <tr key={payment._id}>
+                <td>{payment.cardHolder}</td>
+                  <td>${payment.amount}</td>
+                  <td>{payment.status}</td>
+                  <td>{new Date(payment.createdAt).toLocaleString()}</td>
+              </tr>
             ))}
-          </ul>)}
+            </tbody>
+          </table>)}
     </>;
 };
 
