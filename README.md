@@ -1,8 +1,15 @@
 # Node.js API Visa
 
-A dockerized playground setup with a simplified simulation of handling transactions with Visa API. 
+A dockerized playground setup with a simplified simulation of handling transactions with Visa API.
 
 For Visa API, there is a mock, as the real API is available only for banks and other relevant organisations.
+
+## Features
+
+* Add payment via payment form
+  * Payment is verified via Mock Visa API
+  * Payment data is enriched with verification status and added to the Mongo `payments` collection
+  * Payments list in frontend gets updated by a WebSocket
 
 ## Stack
 - Docker
