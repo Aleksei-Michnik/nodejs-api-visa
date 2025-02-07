@@ -19,16 +19,16 @@ const PaymentList: React.FC<PaymentListProps> = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        async function fetchPayments() {
+        const fetchPayments = async () => {
             try {
-                const data = await getPayments({limit: 20, sort: 'desc' });
+                const data = await getPayments({ limit: 20, sort: 'desc' });
                 setPayments(data);
             } catch (error) {
                 console.error('Error fetching payments:', error);
             } finally {
                 setLoading(false);
             }
-        }
+        };
         fetchPayments();
     }, []);
 
