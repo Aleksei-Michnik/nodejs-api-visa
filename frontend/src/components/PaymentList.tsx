@@ -18,7 +18,7 @@ interface PaymentListProps {
 const PaymentList: React.FC<PaymentListProps> = ({ onNewPayment }) => {
     const [payments, setPayments] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-    const perPage = 20;
+    const perPage = 10;
 
     const addPayment = (newPayment: Payment) => {
         setPayments(prevPayments => {
