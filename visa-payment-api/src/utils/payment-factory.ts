@@ -11,20 +11,30 @@ export const paymentFactory = async (
 
     const fetchName = async (): Promise<string> => {
         if (namesCache.length !== 0)
-            return namesCache.pop() || 'John Doe';
-        try {
-            const response = await paymentService.httpClient.get(
-                'https://randomuser.me/api/?results=10&inc=name&nat=gb,us'
-            );
-            const users = response.results.map(
-                (user: any) => `${user.name.first} ${user.name.last}`
-            );
-            namesCache.push(...users);
-        } catch (err) {
-            console.error('Error fetching user data:', err.message);
-            return 'Random User';
+            return namesCache.pop() || 'Random User';
+        const maxRetries = 5;
+        let retryDelay = 1000;
+        let retries = 0;
+        while (retries < maxRetries) {
+            try {
+                const response = await paymentService.httpClient.get(
+                    'https://randomuser.me/api/?results=10&inc=name&nat=gb,us'
+                );
+                const users = response.results.map(
+                    (user: any) => `${user.name.first} ${user.name.last}`
+                );
+                namesCache.push(...users);
+                return namesCache.pop() || 'Random User';
+            } catch (err) {
+                console.error('Error fetching user data:', err.message);
+            }
+            retries++;
+            console.log(`Retrying fetchName in ${retryDelay}ms... (${retries}/${maxRetries})`);
+            await new Promise(resolve => setTimeout(resolve, retryDelay));
+            retryDelay *= 2;
         }
-        return namesCache.pop() || 'John Doe';
+        console.warn('All fetchName retries exhausted. Returning fallback name');
+        return 'Random User';
     };
 
     const generateCardNumber = (): string => {
