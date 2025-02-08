@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { spawnPayments } from '../api/paymentService.tsx';
 import './PaymentForm.styles.css';
 
 interface PaymentFormProps {
@@ -17,6 +18,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({onSubmit}) => {
     const [cardHolder, setCardHolder] = useState('John Doe');
     const [expiry, setExpiry] = useState('12/22');
     const [cvv, setCvv] = useState('123');
+    const [isSpawning, setIsSpawning] = useState(false);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -26,6 +28,23 @@ const PaymentForm: React.FC<PaymentFormProps> = ({onSubmit}) => {
         setCardHolder('John Doe');
         setExpiry('12/22');
         setCvv('123');
+    };
+
+    const handleSpawnPayments = async () => {
+        setIsSpawning(true);
+        try {
+            await spawnPayments();
+            alert('Payments spawning started!');
+        } catch (error) {
+            if (error instanceof Error) {
+                console.error('Error spawning payments:', error.message);
+            } else {
+                console.error('Error spawning payments:', error);
+            }
+            alert('Failed to spawn payments.');
+        } finally {
+            setIsSpawning(false);
+        }
     };
 
     return <form className="flex gap-8 items-center flex-wrap justify-center" onSubmit={handleSubmit}>
@@ -86,7 +105,14 @@ const PaymentForm: React.FC<PaymentFormProps> = ({onSubmit}) => {
         </div>
       </div>
       <button className="btn btn-primary text-nowrap w-min" type="submit">Submit Payment</button>
-      <button className="btn text-nowrap w-min">Spawn payments</button>
+      <button
+        className="btn text-nowrap w-min"
+        type="button"
+        onClick={handleSpawnPayments}
+        disabled={isSpawning}
+      >
+        {isSpawning ? 'Spawning...' : 'Spawn Payments'}
+      </button>
     </form>;
 };
 

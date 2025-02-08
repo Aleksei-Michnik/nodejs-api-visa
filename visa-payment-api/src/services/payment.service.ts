@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { HttpClient } from '../utils/http-client';
 import { PaymentGateway} from '../controllers/payment.gateway';
+import {paymentFactory} from '../utils/payment-factory';
 
 @Injectable()
 export class PaymentService {
@@ -55,6 +56,13 @@ export class PaymentService {
         } catch (err) {
             console.error('Error making payment request:', err.message);
             throw new Error('Payment processing failed.');
+        }
+    }
+
+    async spawnPayments(quantity: number = 100): Promise<void> {
+        for (let i = 0; i < quantity; i++) {
+            await paymentFactory(this);
+            console.log(`Spawned payment #${i + 1} of ${quantity}`);
         }
     }
 

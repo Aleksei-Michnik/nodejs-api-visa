@@ -10,6 +10,12 @@ export class PaymentController {
         return await this.paymentService.processPayment(paymentData);
     }
 
+    @Post('/spawn')
+    async spawnPayments(): Promise<string> {
+        await this.paymentService.spawnPayments();
+        return 'Payments successfully generated';
+    }
+
     @Get()
     async getPayments(
         @Query('page') page: string,

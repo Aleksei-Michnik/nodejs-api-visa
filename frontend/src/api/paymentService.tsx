@@ -22,3 +22,16 @@ export async function submitPayment(paymentDetails: object) {
         throw error;
     }
 }
+
+export async function spawnPayments() {
+    try {
+        const response = await axios.post(`${API_BASE_URL}/payments/spawn`);
+        if (response.status !== 200 && response.status !== 201) {
+            throw new Error(`Unexpected response status: ${response.status}`);
+        }
+        return response.data;
+    } catch (error) {
+        console.error('Error spawning payments:', error);
+        throw error;
+    }
+}

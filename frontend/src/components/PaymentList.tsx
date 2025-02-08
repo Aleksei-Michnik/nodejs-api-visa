@@ -23,6 +23,7 @@ const PaymentList: React.FC<PaymentListProps> = ({ onNewPayment }) => {
     const [hasMore, setHasMore] = useState(true);
     const perPage = 10;
     const pageRef = useRef(page);
+    const [generatedPayments, setGeneratedPayments] = useState(0);
 
     useEffect(() => {
         pageRef.current = page;
@@ -80,7 +81,7 @@ const PaymentList: React.FC<PaymentListProps> = ({ onNewPayment }) => {
 
         const socket: Socket = io(import.meta.env.VITE_BACKEND_API_BASE_URL, {
             transports: ['websocket'],
-            reconnectionAttempts: 5,
+            reconnectionAttempts: 20,
             timeout: 10000,
             path: '/socket.io/',
         });
@@ -92,6 +93,7 @@ const PaymentList: React.FC<PaymentListProps> = ({ onNewPayment }) => {
         });
         socket.on('paymentAdded', (newPayment: Payment) => {
             console.log('New payment received via WebSocket:', newPayment);
+            setGeneratedPayments(prev => prev + 1); // Should be on Spawn payments only
             addPayment(newPayment);
         });
 
@@ -102,7 +104,8 @@ const PaymentList: React.FC<PaymentListProps> = ({ onNewPayment }) => {
     }, []);
 
     return <>
-      {loading ? (<p>Loading...</p>)
+        <p>Generated Payments: {generatedPayments}</p>
+        {loading ? (<p>Loading...</p>)
           : (<table>
             <thead>
             <tr>
