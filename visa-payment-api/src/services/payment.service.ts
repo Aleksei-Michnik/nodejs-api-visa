@@ -8,7 +8,7 @@ import {paymentFactory} from '../utils/payment-factory';
 @Injectable()
 export class PaymentService {
     constructor(
-        private readonly httpClient: HttpClient,
+        readonly httpClient: HttpClient,
         private readonly paymentGateway: PaymentGateway,
         @InjectModel('Payment') private readonly paymentModel: Model<any>,
     ) {}

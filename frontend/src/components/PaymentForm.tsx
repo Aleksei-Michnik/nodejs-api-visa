@@ -34,7 +34,6 @@ const PaymentForm: React.FC<PaymentFormProps> = ({onSubmit}) => {
         setIsSpawning(true);
         try {
             await spawnPayments();
-            alert('Payments spawning started!');
         } catch (error) {
             if (error instanceof Error) {
                 console.error('Error spawning payments:', error.message);
