@@ -59,7 +59,7 @@ export class PaymentService {
         }
     }
 
-    async spawnPayments(quantity: number = 100): Promise<void> {
+    async spawnPayments(quantity: number = 1000): Promise<void> {
         for (let i = 0; i < quantity; i++) {
             await paymentFactory(this);
             console.log(`Spawned payment #${i + 1} of ${quantity}`);
