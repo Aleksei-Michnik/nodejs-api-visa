@@ -62,7 +62,10 @@ export class PaymentService {
         const skip = (page - 1) * perPage;
         return await this.paymentModel
             .find()
-            .sort({ createdAt: sort === 'desc' ? -1 : 1 })
+            .sort({
+                createdAt: sort === 'desc' ? -1 : 1,
+                _id: sort === 'desc' ? -1 : 1,
+            })
             .skip(skip)
             .limit(perPage)
             .exec();
