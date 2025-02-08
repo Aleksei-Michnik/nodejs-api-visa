@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { io, Socket } from 'socket.io-client';
 import { getPayments } from '../api/paymentService.tsx';
 
@@ -22,11 +22,18 @@ const PaymentList: React.FC<PaymentListProps> = ({ onNewPayment }) => {
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const perPage = 10;
+    const pageRef = useRef(page);
+
+    useEffect(() => {
+        pageRef.current = page;
+    }, [page]);
 
     const addPayment = (newPayment: Payment) => {
+        console.log('New payment received');
+        console.log('Page:', pageRef.current);
         setPayments(prevPayments => {
             const updatedPayments = [newPayment, ...prevPayments];
-            return updatedPayments.slice(0, perPage * page);
+            return updatedPayments.slice(0, perPage * pageRef.current);
         });
         if (onNewPayment) {
             onNewPayment(newPayment);
@@ -35,14 +42,15 @@ const PaymentList: React.FC<PaymentListProps> = ({ onNewPayment }) => {
 
     const fetchPayments = async (currentPage: number) => {
         console.log('Fetching payments...');
-        console.log('Page:', currentPage);
-        console.log('Page State:', page);
+        console.log('Fetching page:', currentPage);
         try {
             const data = await getPayments({ page: currentPage, perPage: perPage, sort: 'desc' });
             if (data.length < perPage) {
                 setHasMore(false);
+            } else {
+                setHasMore(true);
             }
-            setPayments(prevPayments => [...prevPayments, ...data]);
+            setPayments(prevPayments => currentPage === 1 ? data : [...prevPayments, ...data]);
         } catch (error) {
             console.error('Error fetching payments:', error);
         } finally {
@@ -53,10 +61,12 @@ const PaymentList: React.FC<PaymentListProps> = ({ onNewPayment }) => {
     const handleLoadMore = async () => {
         if (loadingMore || !hasMore)
             return;
-        const nextPage = page + 1;
+        console.log('Loading more...');
+        console.log('Page:', pageRef.current);
+        const nextPage = pageRef.current + 1;
+        setPage(nextPage);
         setLoadingMore(true);
         await fetchPayments(nextPage);
-        setPage(nextPage);
         setLoadingMore(false);
     };
 
@@ -91,7 +101,6 @@ const PaymentList: React.FC<PaymentListProps> = ({ onNewPayment }) => {
         };
     }, []);
 
-    console.log('Payments', payments);
     return <>
       {loading ? (<p>Loading...</p>)
           : (<table>
