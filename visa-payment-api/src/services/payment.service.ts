@@ -63,6 +63,7 @@ export class PaymentService {
         return await this.paymentModel
             .find()
             .sort({ createdAt: sort === 'desc' ? -1 : 1 })
+            .skip(skip)
             .limit(perPage)
             .exec();
     }
