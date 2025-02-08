@@ -58,11 +58,12 @@ export class PaymentService {
         }
     }
 
-    async getPayments(limit: number = 20, sort: 'asc' | 'desc' = 'desc'): Promise<any> {
+    async getPayments(page: number = 1, perPage: number = 10, sort: 'asc' | 'desc' = 'desc'): Promise<any> {
+        const skip = (page - 1) * perPage;
         return await this.paymentModel
             .find()
             .sort({ createdAt: sort === 'desc' ? -1 : 1 })
-            .limit(limit)
+            .limit(perPage)
             .exec();
     }
 }

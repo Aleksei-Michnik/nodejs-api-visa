@@ -12,10 +12,12 @@ export class PaymentController {
 
     @Get()
     async getPayments(
-        @Query('limit') limit: string,
+        @Query('page') page: string,
+        @Query('perPage') perPage: string,
         @Query('sort') sort: 'asc' | 'desc',
     ): Promise<any> {
-        const limitNumber = parseInt(limit, 10) || 20;
-        return await this.paymentService.getPayments(limitNumber, sort || 'desc');
+        const pageNumber = parseInt(page, 10) || 1;
+        const perPageNumber = parseInt(perPage, 10) || 10;
+        return await this.paymentService.getPayments(pageNumber, perPageNumber, sort || 'desc');
     }
 }

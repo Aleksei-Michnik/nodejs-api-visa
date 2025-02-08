@@ -2,10 +2,10 @@ import axios from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_BACKEND_API_BASE_URL;
 
-export async function getPayments(queryParams: { limit?: number; sort?: 'asc' | 'desc' } = {}) {
-    const { limit = 20, sort = 'desc' } = queryParams;
+export async function getPayments(queryParams: { page?: number, perPage?: number; sort?: 'asc' | 'desc' } = {}) {
+    const { page, perPage, sort } = queryParams;
     const response = await axios.get(`${API_BASE_URL}/payments`, {
-        params: { limit, sort },
+        params: { page, perPage, sort },
     });
     return response.data;
 }
