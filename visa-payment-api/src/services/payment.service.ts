@@ -14,22 +14,39 @@ export class PaymentService {
     ) {}
 
     async processPayment(paymentData: any): Promise<any> {
-        const antiFraudResponse = await this.httpClient.post('/anti-fraud', {
-            cardNumber: paymentData.cardNumber,
-        });
+        try {
+            // Step 1: Perform anti-fraud check
+            const isFraudulent = await this.isFraudulentPayment(paymentData.cardNumber);
 
-        if (!antiFraudResponse.pass) {
-            const failedPayment = {
-                ...paymentData,
-                status: 'fraud',
-                createdAt: new Date(),
-            };
+            if (isFraudulent) {
+                return await this.savePayment(paymentData, 'fraud');
+            }
 
-            await new this.paymentModel(failedPayment).save();
+            // Step 2: Process payment through the mock Visa API
+            const paymentStatus = await this.processVisaPayment(paymentData);
 
-            return failedPayment;
+            return await this.savePayment(paymentData, paymentStatus);
+        } catch (error) {
+            console.error('Error processing payment:', error.message);
+            throw new Error('Payment processing failed.');
         }
+    }
 
+    private async isFraudulentPayment(cardNumber: string): Promise<boolean> {
+        try {
+            const antiFraudResponse = await this.httpClient.post('/anti-fraud', { cardNumber });
+            return !antiFraudResponse.pass;
+        } catch (error) {
+            if (error.response?.status === 400) {
+                console.warn('Fraudulent card detected:', cardNumber);
+                return true;
+            }
+            console.error('Unexpected error during anti-fraud check:', error.message);
+            throw new Error('Anti-fraud check failed.');
+        }
+    }
+
+    private async processVisaPayment(paymentData: any): Promise<'success' | 'declined' | 'fraud'> {
         try {
             const paymentResponse = await this.httpClient.post('/payments', {
                 cardNumber: paymentData.cardNumber,
@@ -39,25 +56,30 @@ export class PaymentService {
                 amount: paymentData.amount,
             });
 
-            const paymentStatus =
-                paymentResponse.status === 'approved' ? 'success' : 'declined';
+            if (paymentResponse.status === 'failed') {
+                return 'fraud';
+            }
 
-            const completedPayment = {
-                ...paymentData,
-                status: paymentStatus,
-                createdAt: new Date(),
-            };
-
-            const savedPayment = await new this.paymentModel(completedPayment).save();
-
-            this.paymentGateway.sendPaymentUpdate(savedPayment);
-
-            return savedPayment;
-        } catch (err) {
-            console.error('Error making payment request:', err.message);
-            throw new Error('Payment processing failed.');
+            return paymentResponse.status === 'approved' ? 'success' : 'declined';
+        } catch (error) {
+            console.error('Error making payment request:', error.message);
+            throw new Error('Visa payment processing failed.');
         }
     }
+
+    private async savePayment(paymentData: any, status: 'success' | 'declined' | 'fraud'): Promise<any> {
+        const paymentToSave = {
+            ...paymentData,
+            status,
+            createdAt: new Date(),
+        };
+        const savedPayment = await new this.paymentModel(paymentToSave).save();
+
+        this.paymentGateway.sendPaymentUpdate(savedPayment);
+
+        return savedPayment;
+    }
+
 
     async spawnPayments(quantity: number = 1000): Promise<void> {
         for (let i = 0; i < quantity; i++) {
