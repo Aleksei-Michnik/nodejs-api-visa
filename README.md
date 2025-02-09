@@ -2,6 +2,8 @@
 
 A dockerized playground setup with a simplified simulation of handling transactions with Visa API.
 
+Built on top of [boilerplate-docker-nestjs-react-vite-dev](https://github.com/Aleksei-Michnik/boilerplate-docker-nestjs-react-vite-dev).
+
 For Visa API, there is a mock, as the real API is available only for banks and other relevant organisations.
 
 ## Features
