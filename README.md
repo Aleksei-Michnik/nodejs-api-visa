@@ -10,6 +10,12 @@ For Visa API, there is a mock, as the real API is available only for banks and o
   * Payment is verified via Mock Visa API
   * Payment data is enriched with verification status and added to the Mongo `payments` collection
   * Payments list in frontend gets updated by a WebSocket
+  * Form data is validated via DTO
+* Spawn payments
+  * Generate pre-defined number of mock payments (default 1000) where all the payment data is random
+  * Leverage/reuse all the functionality related to payments addition from the form
+  * Uses https://randomuser.com API to generate random card holder names, with special measures to prevent the API abuse and failures handling (caching, retries policy)
+  * Due to the previous items, adds payments not immediately but with the process visualisation in frontend
 
 ## Stack
 - Docker
