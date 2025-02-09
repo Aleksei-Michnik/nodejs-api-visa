@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { HttpClient } from '../utils/http-client';
-import { PaymentGateway} from '../controllers/payment.gateway';
-import {paymentFactory} from '../utils/payment-factory';
+import { PaymentGateway } from '../controllers/payment.gateway';
+import { paymentFactory } from '../utils/payment-factory';
 
 @Injectable()
 export class PaymentService {
