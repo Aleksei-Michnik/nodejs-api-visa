@@ -65,7 +65,7 @@ export const paymentFactory = async (
         return Array(4)
             .fill(null)
             .map(() => Math.floor(1000 + Math.random() * 9000)) // 4 groups of 4 digits
-            .join(' ');
+            .join('');
     };
 
     const generateCVV = (): string => {

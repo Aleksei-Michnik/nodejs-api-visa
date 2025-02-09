@@ -1,13 +1,17 @@
-import {Controller, Get, Post, Body, Query} from '@nestjs/common';
+import {Controller, Get, Post, Body, Query, ValidationPipe } from '@nestjs/common';
 import { PaymentService } from '../services/payment.service';
+import { PaymentRequestDto } from '../dto/payment-request.dto';
 
 @Controller('payments')
 export class PaymentController {
     constructor(private readonly paymentService: PaymentService) {}
 
     @Post()
-    async processPayment(@Body() paymentData: any): Promise<any> {
-        return await this.paymentService.processPayment(paymentData);
+    async processPayment(
+        @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+        paymentRequest: PaymentRequestDto,
+    ): Promise<any> {
+        return await this.paymentService.processPayment(paymentRequest);
     }
 
     @Post('/spawn')

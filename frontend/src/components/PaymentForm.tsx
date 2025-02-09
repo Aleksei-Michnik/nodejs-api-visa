@@ -4,7 +4,7 @@ import './PaymentForm.styles.css';
 
 interface PaymentFormProps {
     onSubmit: (paymentDetails: {
-        amount: string;
+        amount: number;
         cardNumber: string;
         cardHolder: string;
         expiry: string;
@@ -14,20 +14,26 @@ interface PaymentFormProps {
 
 const PaymentForm: React.FC<PaymentFormProps> = ({onSubmit}) => {
     const [amount, setAmount] = useState('1000');
-    const [cardNumber, setCardNumber] = useState('5234 5678 9123 4567');
-    const [cardHolder, setCardHolder] = useState('John Doe');
-    const [expiry, setExpiry] = useState('12/22');
-    const [cvv, setCvv] = useState('123');
+    const [cardNumber, setCardNumber] = useState('');
+    const [cardHolder, setCardHolder] = useState('');
+    const [expiry, setExpiry] = useState('');
+    const [cvv, setCvv] = useState('');
     const [isSpawning, setIsSpawning] = useState(false);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        onSubmit({ amount, cardNumber, cardHolder, expiry, cvv });
+        onSubmit({
+            amount: parseFloat(amount),
+            cardNumber: cardNumber.replace(/\s/g, ''),
+            cardHolder,
+            expiry,
+            cvv
+        });
         setAmount('1000');
-        setCardNumber('5234 5678 9123 4567');
-        setCardHolder('John Doe');
-        setExpiry('12/22');
-        setCvv('123');
+        setCardNumber('');
+        setCardHolder('');
+        setExpiry('');
+        setCvv('');
     };
 
     const handleSpawnPayments = async () => {
