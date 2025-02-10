@@ -59,8 +59,9 @@ const PaymentForm: React.FC<PaymentFormProps> = ({onSubmit}) => {
           value={amount}
         />
         <div className="w-full">
-          <label className="label">Card Number</label>
+          <label className="label" htmlFor="cardNumber">Card Number</label>
           <input
+            id="cardNumber"
             className="input w-full text-xl"
             type="text"
             value={cardNumber}
@@ -70,8 +71,9 @@ const PaymentForm: React.FC<PaymentFormProps> = ({onSubmit}) => {
           />
         </div>
         <div className="w-full">
-          <label className="label">Card Holder Name</label>
+          <label className="label" htmlFor="cardHolder">Card Holder Name</label>
           <input
+            id="cardHolder"
             className="input w-full text-xl"
             type="text"
             value={cardHolder}
@@ -82,10 +84,11 @@ const PaymentForm: React.FC<PaymentFormProps> = ({onSubmit}) => {
         </div>
         <div className="w-full flex gap-4">
         <div className="w-1/2">
-          <label className="label">
+          <label className="label" htmlFor="expiryDate">
             Expiry Date
           </label>
           <input
+            id="expiryDate"
             className="input w-full text-xl"
             type="text"
             value={expiry}
@@ -95,10 +98,11 @@ const PaymentForm: React.FC<PaymentFormProps> = ({onSubmit}) => {
           />
         </div>
         <div className="w-1/2">
-          <label className="label">
+          <label className="label" htmlFor="cvv">
             CVV
           </label>
           <input
+            id="cvv"
             className="input w-full text-xl"
             type="password"
             value={cvv}
